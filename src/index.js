@@ -41,4 +41,10 @@ app.post("/users", (request, response) => {
   return response.status(201).json(user);
 });
 
+app.get('/todos', checkExistsUserAccount, (request, response) => {
+  const {user} = request
+
+  return response.status(200).json(user.todo)
+})
+
 app.listen(3333);
