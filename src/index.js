@@ -33,7 +33,7 @@ app.post("/users", (request, response) => {
     id: uuidv4(),
     name,
     username,
-    todo: [],
+    todos: [],
   };
 
   users.push(user);
@@ -44,7 +44,23 @@ app.post("/users", (request, response) => {
 app.get('/todos', checkExistsUserAccount, (request, response) => {
   const {user} = request
 
-  return response.status(200).json(user.todo)
+  return response.status(200).json(user.todos)
+})
+
+app.post('/todos', checkExistsUserAccount, (request, response) => {
+  const {user} = request
+  const {title} = request.body
+
+  const todo = {
+    id: uuidv4(),
+    title,
+    created_at: new Date(),
+    done: false,
+  }
+
+  user.todos.push(todo)
+
+  return response.status(201).json(todo)
 })
 
 app.listen(3333);
