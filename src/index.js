@@ -75,6 +75,23 @@ app.put("/todos/:id", checkExistsUserAccount, (request, response) => {
   }
 
   todo.title = title;
+
+  return response.json(todo);
+});
+
+app.patch("/todos/:id/done", checkExistsUserAccount, (request, response) => {
+  const { user } = request;
+  const { id } = request.params;
+
+  const todo = user.todos.find(todo => todo.id === id);
+
+  if(!todo){
+    return response.status(404).json({ error: "TODO not found" });
+  }
+
+  todo.done = true
+
+  return response.json(todo)
 });
 
 app.listen(3333);
